@@ -1,40 +1,42 @@
 const axios = require("axios");
+const qs = require("qs");
 
 exports.handler = async (event) => {
+	let statusCode = 200;
+	let result;
+	let body = {};
 	try {
-		let result = (
+		if (event.body) body = JSON.parse(event.body);
+		result = (
 			await axios.post(
 				"https://kapi.kakao.com/v1/payment/ready",
-				{
+				qs.stringify({
 					cid: "TC0ONETIME",
 					partner_order_id: 1,
 					partner_user_id: 1,
-					item_name: event.item_name,
-					quantity: event.quantity,
-					total_amount: event.total_amount,
-					vat_amount: event.vat_amount,
-					tax_free_amount: event.tax_free_amount,
+					item_name: body.item_name,
+					quantity: body.quantity,
+					total_amount: body.total_amount,
+					vat_amount: body.vat_amount,
+					tax_free_amount: body.tax_free_amount,
 					approval_url: "https://sunrinpay.web.app/",
 					fail_url: "https://sunrinpay.web.app/",
 					cancel_url: "https://sunrinpay.web.app/",
-				},
+				}),
 				{
 					headers: {
-						Authorization: `KakaoAK REQUIRE_KEY`,
-						"Content-type": "application/x-www-form-urlencoded;charset=utf-8",
-						"Access-Control-Allow-Origin": "*",
+						Authorization: `KakaoAK f04393e97922b0f19fb8be5852092f25`,
+						"Content-Type": "application/x-www-form-urlencoded;charset=utf-8",
 					},
 				}
 			)
 		).data;
 	} catch (err) {
-		return {
-			statusCode: 400,
-			body: JSON.stringify("bad request"),
-		};
+		statusCode = 200;
+		result = err;
 	}
 	return {
-		statusCode: 200,
+		statusCode,
 		body: JSON.stringify(result),
 	};
 };
