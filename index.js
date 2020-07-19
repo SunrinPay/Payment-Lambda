@@ -19,9 +19,9 @@ exports.handler = async (event) => {
 					total_amount: body.total_amount,
 					vat_amount: body.vat_amount,
 					tax_free_amount: body.tax_free_amount,
-					approval_url: "https://sunrinpay.web.app/",
-					fail_url: "https://sunrinpay.web.app/",
-					cancel_url: "https://sunrinpay.web.app/",
+					approval_url: "https://sunrinpay.com/",
+					fail_url: "https://sunrinpay.com/",
+					cancel_url: "https://sunrinpay.com/",
 				}),
 				{
 					headers: {
